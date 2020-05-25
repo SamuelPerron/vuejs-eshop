@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import App from './App.vue'
 import Main from './components/Main.vue'
+import { makeServer } from './server'
 
 
 Vue.use(Router)
@@ -19,6 +20,10 @@ const router = new Router(
         ]
     }
 )
+
+if (process.env.NODE_ENV === 'development') {
+    makeServer()
+}
 
 new Vue({
   render: h => h(App),
