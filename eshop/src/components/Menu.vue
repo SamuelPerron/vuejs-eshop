@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import '../assets/css/menu.css';
+import '../assets/css/menu.scss';
 
 export default {
     name: 'Menu',
