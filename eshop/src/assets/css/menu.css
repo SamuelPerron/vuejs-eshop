@@ -1,0 +1,44 @@
+.menu-icon {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    z-index: 99;
+}
+
+.menu-icon div {
+    width: 33px;
+    height: 5px;
+    background-color: #ec576b;
+    margin: 6px 0;
+    transition: .3s;
+}
+
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {
+  opacity: 0;
+}
+
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+.menu-container {
+    width: 350px;
+    height: 100%;
+    position: fixed;
+    left: -350px;
+    background-color: #4ec5c1;
+    transition: .5s;
+    z-index: 9;
+    box-shadow: 0 0 10px #4ec5c1;
+}
+
+.menu-container.open {
+    left: 0;
+}

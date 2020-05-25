@@ -1,0 +1,12 @@
+:root {
+    --black: #000;
+    --pink: #ec576b;
+    --aqua: #4ec5c1;
+    --lime: #ese338;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
