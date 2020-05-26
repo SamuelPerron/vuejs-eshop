@@ -45,6 +45,16 @@
             cursor: pointer;
             transition: .5s;
 
+            path {
+                transition: .5s;
+                fill: #fff;
+                stroke: #fff;
+            }
+
+            path.hide {
+                fill: none;
+            }
+
             &:last-child {
                 margin-right: 0;
             }
@@ -52,6 +62,15 @@
 
         li.open {
             color: $plain;
+
+            path {
+                fill: $plain;
+                stroke: $plain;
+            }
+
+            path.hide {
+                fill: none;
+            }
         }
     }
 }
@@ -64,8 +83,100 @@
     right: -30vw;
     background-color: #fff;
     z-index: 2;
-    animation-duration: 1s;
+    animation-duration: .9s;
     animation-timing-function: ease;
+
+    .sub-menu {
+        margin-top: 11vh;
+        padding: 2vh 2vw;
+
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                margin-bottom: 1vh;
+                font-size: 1.3rem;
+                font-weight: bold;
+                cursor: pointer;
+                color: $text;
+                transition: .2s;
+
+                opacity: 0;
+                margin-left: 25px;
+                animation-timing-function: ease;
+                animation-duration: 1s;
+
+                .bottom {
+                    height: 20vh;
+                    position: absolute;
+                    bottom: 2vh;
+                    width: 26vw;
+                    display: flex;
+                    opacity: 0;
+                    transition: .2s;
+
+                    .left {
+                        background-color: $pale-text;
+                        width: 35%;
+                        overflow: hidden;
+
+                        img {
+                            max-width: 100%;
+                        }
+                    }
+
+                    .right {
+                        width: 65%;
+                        padding-left: 1vw;
+
+                        h4 {
+                            color: $text;
+                            font-size: 1.1rem;
+                        }
+
+                        p {
+                            color: $pale-text;
+                            font-size: .9rem;
+                        }
+                    }
+                }
+
+                &::before {
+                    content: "-";
+                    position: absolute;
+                    left: 0;
+                    opacity: 0;
+                    transition: .2s;
+                    color: $accent1 !important;
+                }
+
+                &:hover {
+                    color: $pale-text;
+
+                    .bottom {
+                        opacity: 1;
+                    }
+
+                    &::before {
+                        left: 1vw;
+                        opacity: 1;
+                    }
+                }
+            }
+
+            li.open {
+                animation-name: showSubMenu;
+                opacity: 1;
+                margin-left: 0;
+            }
+
+            li.close {
+                animation-name: hideSubMenu;
+                animation-duration: .5s;
+            }
+        }
+    }
 }
 
 .menu-container.open {
@@ -87,4 +198,26 @@
 @keyframes hideMenu {
     100% { right: -30vw; }
     0% { right: 0; }
+}
+
+@keyframes showSubMenu {
+    0% {
+        margin-left: 25px;
+        opacity: 0;
+    }
+    100% {
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes hideSubMenu {
+    0% {
+        margin-left: 0px;
+        opacity: 1;
+    }
+    100% {
+        margin-left: 25px;
+        opacity: 0;
+    }
 }
