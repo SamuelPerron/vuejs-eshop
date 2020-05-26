@@ -20,7 +20,7 @@
     height: 8vh;
     padding: 1vh 1.5vw;
     background-color: $plain;
-    color: #fff;
+    color: $white;
     align-items: center;
 
     h1 {
@@ -47,8 +47,8 @@
 
             path {
                 transition: .5s;
-                fill: #fff;
-                stroke: #fff;
+                fill: $white;
+                stroke: $white;
             }
 
             path.hide {
@@ -81,7 +81,7 @@
     position: fixed;
     top: 0;
     right: -30vw;
-    background-color: #fff;
+    background-color: $white;
     z-index: 2;
     animation-duration: .9s;
     animation-timing-function: ease;
@@ -131,7 +131,7 @@
                         padding-left: 1vw;
 
                         h4 {
-                            color: $text;
+                            color: $accent1;
                             font-size: 1.1rem;
                         }
 
