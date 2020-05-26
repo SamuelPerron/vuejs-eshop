@@ -1,13 +1,17 @@
 <template>
     <div class="menu">
-        <div class="menu-icon" v-on:click="iconAnimation" :class="{change: isOpen}">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
+        <div class="menu-dim" :class="{open: isOpen}"></div>
+
+        <div class="menu-top">
+            <h1>Outline</h1>
+            <ul>
+                <li :class="{open: isOpen}" v-on:click="openMenu('men')">Men</li>
+                <li :class="{open: isOpen}" v-on:click="openMenu('women')">Women</li>
+                <li :class="{open: isOpen}" v-on:click="openMenu('explore')">Explore</li>
+            </ul>
         </div>
 
-        <div class="menu-container" :class="{open: isOpen}">
-
+        <div class="menu-container" :class="{open: isOpen, close: isClose}">
         </div>
     </div>
 </template>
@@ -20,12 +24,19 @@ export default {
     data() {
         return {
             isOpen: false,
+            isClose: false,
         }
     },
     methods: {
-        iconAnimation() {
-            this.isOpen = !this.isOpen;
-        },
+        openMenu() {
+            if (this.isOpen) {
+                this.isOpen = false;
+                this.isClose = true;
+            } else {
+                this.isOpen = true;
+                this.isClose = false;
+            }
+        }
     },
 }
 </script>

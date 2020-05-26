@@ -1,46 +1,90 @@
-.menu-container {
-    width: 350px;
-    height: 100%;
+@import "@/assets/css/variables.scss";
+
+.menu-dim {
     position: fixed;
-    left: -350px;
-    background-color: #4ec5c1;
-    transition: .5s;
-    z-index: 9;
-    box-shadow: 0 0 10px #4ec5c1;
+    width: 100vw;
+    height: 100vh;
+    background-color: $black;
+    opacity: 0;
+    transition: .8s;
+}
+
+.menu-dim.open {
+    opacity: .10;
+}
+
+.menu-top {
+    z-index: 2;
+    display: flex;
+    width: 97vw;
+    height: 8vh;
+    padding: 1vh 1.5vw;
+    background-color: $plain;
+    color: #fff;
+    align-items: center;
+
+    h1 {
+        display: block;
+        width: 20%;
+    }
+
+    ul {
+        width: 80%;
+        height: 100%;
+        display: flex;
+        list-style: none;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 5vw 0 0;
+        margin: 0;
+        z-index: 3;
+
+        li {
+            display: inline-block;
+            margin-right: 1.5vw;
+            cursor: pointer;
+            transition: .5s;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        li.open {
+            color: $plain;
+        }
+    }
+}
+
+.menu-container {
+    width: 30vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: -30vw;
+    background-color: #fff;
+    z-index: 2;
+    animation-duration: 1s;
+    animation-timing-function: ease;
 }
 
 .menu-container.open {
-    left: 0;
+    animation-name: showMenu;
+    right: 0;
 }
 
-.menu-icon {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    cursor: pointer;
-    z-index: 99;
-
-    div {
-        width: 33px;
-        height: 5px;
-        background-color: #ec576b;
-        margin: 6px 0;
-        transition: .3s;
-    }
+.menu-container.close {
+    animation-name: hideMenu;
+    animation-duration: .6s;
+    right: -30vw;
 }
 
-.change {
-     .bar1 {
-        -webkit-transform: rotate(-45deg) translate(-9px, 6px);
-        transform: rotate(-45deg) translate(-9px, 6px);
-    }
+@keyframes showMenu {
+    0% { right: -30vw; }
+    100% { right: 0; }
+}
 
-    .bar2 {
-        opacity: 0;
-    }
-
-    .bar3 {
-        -webkit-transform: rotate(45deg) translate(-8px, -8px);
-        transform: rotate(45deg) translate(-8px, -8px);
-    }
+@keyframes hideMenu {
+    100% { right: -30vw; }
+    0% { right: 0; }
 }

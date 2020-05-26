@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import App from './App.vue'
 import Main from './components/Main.vue'
 import { makeServer } from './server'
+import './assets/css/variables.scss';
 
 
 Vue.use(Router)
