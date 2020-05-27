@@ -40,6 +40,24 @@
                     </li>
                 </ul>
             </div>
+            <div v-if="actualSubMenu == null && actualMenu == 'search'" class="sub-menu search">
+                <input type="text" v-on:keyup="searchProducts" v-model="search"/>
+                <ul>
+                    <li v-for="result in results" :key="result.id">
+                        {{ result['name'] }}
+                        <div class="infos">
+                            <div class="left">
+                                <img :src="'images/products/' + result['image']">
+                            </div>
+                            <div class="right">
+                                <p>{{ result['description'] }}</p>
+                                <strong>${{ result['price'] }}</strong>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="no-results" v-if="noResults">No results for this.</li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -56,12 +74,31 @@ export default {
             actualMenu: null,
             actualSubMenu: null,
             menus: [],
+            search: '',
+            results: [],
+            noResults: false,
         }
     },
     created() {
         this.fetchCategories();
     },
     methods: {
+        searchProducts() {
+            this.results = [];
+            this.noResults = false;
+            if (this.search != '' || this.search != ' ') {
+                console.log(this.search);
+                var that = this;
+                this.$http.get('/api/products?name=' + encodeURIComponent(this.search) + '&limit=3').
+                then(function(response) {
+                    that.results = response.data.products;
+                    if (that.results.length == 0){
+                        that.noResults = true;
+                    }
+                    that.$forceUpdate();
+                });
+            }
+        },
         fetchCategories() {
             var that = this;
             this.$http.get('/api/categories').

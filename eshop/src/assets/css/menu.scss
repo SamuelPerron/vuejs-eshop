@@ -177,6 +177,102 @@
             }
         }
     }
+
+    .sub-menu.search {
+        input {
+            width: 90%;
+            height: 2vh;
+            padding-right: 5%;
+            font-family: 'Spartan', Sans-Serif;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            max-height: 80vh;
+
+            li {
+                opacity: 1;
+                min-height: 20vh;
+                border-bottom: 1px solid $accent2;
+                padding-top: 1vh;
+                margin-bottom: 1vh;
+
+                p {
+                    color: $text;
+                }
+
+                .infos {
+                    margin-top: 1vh;
+                    display: flex;
+                    height: 15vh;
+
+                    .left {
+                        background-color: $pale-text;
+                        width: 35%;
+                        overflow: hidden;
+
+                        img {
+                            max-width: 100%;
+                        }
+                    }
+
+                    .right {
+                        width: 65%;
+                        padding-left: 1vw;
+
+                        p {
+                            font-size: 1rem;
+                        }
+
+                        strong {
+                            color: $accent1;
+                        }
+                    }
+                }
+
+                &:hover {
+                    p {
+                        color: $text;
+                    }
+                }
+
+                &:first-child {
+                    border-top: 1px solid $accent2;
+                    padding-top: 2vh;
+                    margin-top: 1vh;
+                }
+            }
+
+            li.no-results {
+                border-bottom: 0;
+                cursor: default;
+
+                &:hover {
+                    color: $text;
+                }
+
+                &:before {
+                    content: "";
+                }
+            }
+        }
+
+        &::after {
+            content: "X";
+            width: 20px;
+            font-weight: bold;
+            font-size: 1.5vh;
+            position: absolute;
+            right: 10%;
+            cursor: pointer;
+            color: $accent1;
+            height: 1rem;
+            display: block;
+            top: 14vh;
+        }
+    }
 }
 
 .menu-container.open {

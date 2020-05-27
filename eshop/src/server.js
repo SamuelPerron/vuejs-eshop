@@ -1,15 +1,39 @@
-import { Server } from 'miragejs'
+import { Server, Model } from 'miragejs'
 
 export function makeServer({ environment = 'development' } = {}) {
 
     let server = new Server({
         environment,
+        models: {
+            product: Model,
+        },
         routes() {
             this.namespace = 'api';
 
-            this.get('/products', () => {
-                return {
-                    'products': []
+            this.get('/products', (schema, request) => {
+                let name = decodeURIComponent(request.queryParams.name).toLowerCase();
+                let limit = request.queryParams.limit;
+                let all = schema.products.all()['models'];
+                var results = [];
+                if (name && name != '' && name != ' ') {
+                    for (var i = 0; i < all.length; i++) {
+                        if (all[i]['name'].toLowerCase().includes(name)) {
+                            results.push(all[i]);
+                        }
+                        if (limit && results.length == limit) {
+                            break;
+                        }
+                    }
+                    return {
+                        'products': results,
+                    }
+                }
+
+                if (name == undefined) {
+                    console.log(name);
+                    return {
+                        'products': all,
+                    }
                 }
             });
 
@@ -46,6 +70,53 @@ export function makeServer({ environment = 'development' } = {}) {
                 }
             });
         },
+        seeds(server) {
+            server.create('product', {
+                id: 1,
+                name: 'Green classic tee',
+                description: 'Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.',
+                image: 'green-classic.jpg',
+                price: 22.99,
+                sizes: ['S', 'M', 'X', 'XL'],
+                inventory: 9999,
+            });
+            server.create('product', {
+                id: 2,
+                name: 'White classic tee',
+                description: 'Mauris pellentesque ipsum at odio efficitur varius. Fusce consequat nibh eget neque posuere consectetur.',
+                image: 'white-classic.jpg',
+                price: 20.99,
+                sizes: ['XS', 'S', 'M', 'X', 'XL'],
+                inventory: 9999,
+            });
+            server.create('product', {
+                id: 3,
+                name: 'Pink classic tee',
+                description: 'Duis eleifend aliquam elit ut tristique. Nunc facilisis lacinia felis in semper.',
+                image: 'pink-classic.jpg',
+                price: 20.99,
+                sizes: ['XS', 'S', 'M', 'X'],
+                inventory: 9999,
+            });
+            server.create('product', {
+                id: 4,
+                name: 'Pacman tee',
+                description: 'Nullam interdum, vulputate gravida urna molestie. Ut quis mauris faucibus, ullamcorper dolor in, eleifend nunc. Aliquam erat volutpat.',
+                image: 'pacman.jpg',
+                price: 49.99,
+                sizes: ['S', 'M'],
+                inventory: 99,
+            });
+            server.create('product', {
+                id: 5,
+                name: 'Eat right, Work hard, Feel good tee',
+                description: 'Maecenas quis nibh risus. Sed euismod neque leo, sed placerat leo scelerisque a. Vestibulum aliquam suscipit augue.',
+                image: 'work-hard.jpg',
+                price: 22.99,
+                sizes: ['M',],
+                inventory: 99,
+            });
+        }
     });
 
     return server
