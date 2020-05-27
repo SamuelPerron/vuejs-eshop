@@ -42,6 +42,7 @@
             </div>
             <div v-if="actualSubMenu == null && actualMenu == 'search'" class="sub-menu search">
                 <input type="text" v-on:keyup="searchProducts" v-model="search"/>
+                <button v-on:click="reset">X</button>
                 <ul>
                     <li v-for="result in results" :key="result.id">
                         {{ result['name'] }}
@@ -83,6 +84,11 @@ export default {
         this.fetchCategories();
     },
     methods: {
+        reset() {
+            this.results = [];
+            this.noResults = false;
+            this.search = '';
+        },
         searchProducts() {
             this.results = [];
             this.noResults = false;

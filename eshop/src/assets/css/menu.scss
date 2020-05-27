@@ -263,8 +263,9 @@
             }
         }
 
-        &::after {
-            content: "X";
+        button {
+            border: 0;
+            background: none;
             width: 20px;
             font-weight: bold;
             font-size: 1.5vh;
@@ -274,7 +275,8 @@
             color: $accent1;
             height: 1rem;
             display: block;
-            top: 14vh;
+            top: 13.5vh;
+            padding: 0;
         }
     }
 }

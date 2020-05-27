@@ -79,6 +79,8 @@ export function makeServer({ environment = 'development' } = {}) {
                 price: 22.99,
                 sizes: ['S', 'M', 'X', 'XL'],
                 inventory: 9999,
+                category: 1,
+                subCategory: 1,
             });
             server.create('product', {
                 id: 2,
@@ -88,6 +90,8 @@ export function makeServer({ environment = 'development' } = {}) {
                 price: 20.99,
                 sizes: ['XS', 'S', 'M', 'X', 'XL'],
                 inventory: 9999,
+                category: 1,
+                subCategory: 1,
             });
             server.create('product', {
                 id: 3,
@@ -97,6 +101,8 @@ export function makeServer({ environment = 'development' } = {}) {
                 price: 20.99,
                 sizes: ['XS', 'S', 'M', 'X'],
                 inventory: 9999,
+                category: 1,
+                subCategory: 1,
             });
             server.create('product', {
                 id: 4,
@@ -106,6 +112,8 @@ export function makeServer({ environment = 'development' } = {}) {
                 price: 49.99,
                 sizes: ['S', 'M'],
                 inventory: 99,
+                category: 1,
+                subCategory: 1,
             });
             server.create('product', {
                 id: 5,
@@ -115,6 +123,8 @@ export function makeServer({ environment = 'development' } = {}) {
                 price: 22.99,
                 sizes: ['M',],
                 inventory: 99,
+                category: 1,
+                subCategory: 1,
             });
         }
     });
