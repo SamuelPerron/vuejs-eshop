@@ -5,8 +5,7 @@
         <div class="menu-top">
             <h1>Outline</h1>
             <ul>
-                <li :class="{open: isOpen}" v-on:click="openMenu(1)">Men</li>
-                <li :class="{open: isOpen}" v-on:click="openMenu(2)">Women</li>
+                <li v-for="categorie in menus" :key="categorie.id" :class="{open: isOpen}" v-on:click="openMenu(categorie['id'])">{{ categorie['name'] }}</li>
                 <li :class="{open: isOpen}" v-on:click="openMenu('explore')">Explore</li>
                 <li :class="{open: isOpen}" v-on:click="openMenu('search')">
                     <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px">
@@ -56,33 +55,20 @@ export default {
             isClose: false,
             actualMenu: null,
             actualSubMenu: null,
-            menus: {
-                1: {
-                    items: [
-                        {name: 'Tees', description: 'Curabitur sit amet ligula vitae purus dictum fringilla.', image: 'tees.jpg'},
-                        {name: 'Polos', description: 'Sed sed efficitur velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: 'polo.jpg'},
-                        {name: 'Dress Shirts', description: 'Aliquam eu purus odio. Fusce lacinia sem aliquet risus bibendum sollicitudin.', image: 'shirt.jpg'},
-                        {name: 'Sweaters', description: 'In euismod laoreet purus, sit amet ornare felis interdum quis.', image: 'sweater.jpg'},
-                        {name: 'Shoes', description: 'Donec facilisis et dolor in eleifend.', image: 'shoes.jpg'},
-                    ],
-                    isOpen: false,
-                    isClose: false,
-                },
-                2: {
-                    items: [
-                        {name: 'Tops', description: 'Curabitur sit amet ligula vitae purus dictum fringilla.', image: 'top.jpg'},
-                        {name: 'Dresses', description: 'Sed sed efficitur velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: 'dress.jpg'},
-                        {name: 'Jumpsuits & Rompers', description: 'Aliquam eu purus odio. Fusce lacinia sem aliquet risus bibendum sollicitudin.', image: 'romper.jpg'},
-                        {name: 'Leggings', description: 'In euismod laoreet purus, sit amet ornare felis interdum quis.', image: 'leggings.jpg'},
-                        {name: 'Skirts', description: 'Donec facilisis et dolor in eleifend.', image: 'skirt.jpg'},
-                    ],
-                    isOpen: false,
-                    isClose: false,
-                }
-            },
+            menus: [],
         }
     },
+    created() {
+        this.fetchCategories();
+    },
     methods: {
+        fetchCategories() {
+            var that = this;
+            this.$http.get('/api/categories').
+            then(function(response) {
+                that.menus = response.data.categories;
+            });
+        },
         openMenu(menu) {
             if (this.isOpen) {
                 if (this.actualMenu == menu) {
@@ -114,7 +100,11 @@ export default {
                 } else if (this.actualMenu == 'cart') {
                     console.log();
                 } else {
-                    this.actualSubMenu = this.menus[this.actualMenu];
+                    for (var i = 0; i < this.menus.length; i++) {
+                        if (this.menus[i]['id'] == this.actualMenu) {
+                            this.actualSubMenu = this.menus[i];
+                        }
+                    }
                     this.actualSubMenu['isClose'] = false;
                     this.actualSubMenu['isOpen'] = true;
                 }
