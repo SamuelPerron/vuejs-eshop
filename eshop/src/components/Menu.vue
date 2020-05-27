@@ -59,6 +59,31 @@
                     <li class="no-results" v-if="noResults">No results for this.</li>
                 </ul>
             </div>
+            <div v-if="actualSubMenu == null && actualMenu == 'cart'" class="sub-menu cart">
+                <span v-if="!cart">Your shopping cart is empty.</span>
+                <ul v-else="">
+                    <li v-for="item in cart['items']" :key="item.id">
+                        {{ item['name'] }}
+                        <div class="infos">
+                            <div class="left">
+                                <img :src="'images/products/' + item['image']">
+                            </div>
+                            <div class="right">
+                                <span class="quantity">Qty: {{ item['quantity'] }}</span>
+                                <span class="size">Size: {{ item['size'] }}</span>
+                                <strong>${{ item['price'] }}</strong>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="subtotal">
+                    <div>
+                        <span>Subtotal</span>
+                        <span>${{ cart['subtotal'] }}</span>
+                    </div>
+                    <button>Checkout</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -78,12 +103,21 @@ export default {
             search: '',
             results: [],
             noResults: false,
+            cart: null,
         }
     },
     created() {
         this.fetchCategories();
+        this.fetchCart();
     },
     methods: {
+        fetchCart() {
+            var that = this;
+            this.$http.get('/api/cart').
+            then(function(response) {
+                that.cart = response.data.cart;
+            });
+        },
         reset() {
             this.results = [];
             this.noResults = false;

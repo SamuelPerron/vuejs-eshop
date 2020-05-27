@@ -22,6 +22,7 @@
     background-color: $plain;
     color: $white;
     align-items: center;
+    user-select: none;
 
     h1 {
         display: block;
@@ -85,6 +86,7 @@
     z-index: 2;
     animation-duration: .9s;
     animation-timing-function: ease;
+    user-select: none;
 
     .sub-menu {
         margin-top: 11vh;
@@ -178,12 +180,16 @@
         }
     }
 
-    .sub-menu.search {
+    .sub-menu.search,
+    .sub-menu.cart {
         input {
             width: 90%;
             height: 2vh;
             padding-right: 5%;
             font-family: 'Spartan', Sans-Serif;
+            animation-name: showInput;
+            animation-timing-function: ease;
+            animation-duration: .6s;
         }
 
         ul {
@@ -277,6 +283,85 @@
             display: block;
             top: 13.5vh;
             padding: 0;
+            animation-name: show;
+            animation-timing-function: ease;
+            animation-duration: 2s;
+        }
+    }
+
+    .sub-menu.cart {
+        ul {
+            li {
+                max-height: 20vh;
+
+                .infos {
+                    .right {
+                        width: 65%;
+                        padding-left: 1vw;
+                        display: flex;
+                        flex-direction: column;
+
+                        span {
+                            margin-bottom: 1vh;
+                            font-size: 1rem;
+                        }
+
+                        strong {
+                            flex-grow: 1;
+                            padding-top: 7vh;
+                        }
+                    }
+                }
+
+                &:hover {
+                    span {
+                        color: $text;
+                    }
+                }
+            }
+        }
+
+        .subtotal {
+            position: absolute;
+            bottom: 2vh;
+            width: 85%;
+            border-top: 1px solid $accent2;
+            padding-top: 2vh;
+
+            div {
+                display: flex;
+                width: 100%;
+
+                span {
+                    display: inline-block;
+                    width: 50%;
+
+                    &:last-child {
+                        text-align: right;
+                    }
+                }
+            }
+
+            button {
+                position: relative;
+                margin: 0;
+                margin-top: 2vh;
+                width: 100%;
+                left: 0;
+                top: 0;
+                right: 0;
+                background-color: $accent1;
+                font-weight: normal;
+                color: #fff;
+                height: 8vh;
+                border: solid 1px $accent1;
+                transition: .3s;
+
+                &:hover {
+                    background: none;
+                    color: $accent1;
+                }
+            }
         }
     }
 }
@@ -321,5 +406,23 @@
     100% {
         margin-left: 25px;
         opacity: 0;
+    }
+}
+
+@keyframes showInput {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 90%;
+    }
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

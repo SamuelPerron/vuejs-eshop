@@ -10,6 +10,31 @@ export function makeServer({ environment = 'development' } = {}) {
         routes() {
             this.namespace = 'api';
 
+            this.get('/cart', () => {
+                return {
+                    'cart': {
+                        nbItem: 3,
+                        subtotal: 64.97,
+                        items: [
+                            {
+                                name: 'Green classic tee',
+                                image: 'green-classic.jpg',
+                                price: 22.99,
+                                size: 'M',
+                                quantity: 1,
+                            },
+                            {
+                                name: 'White classic tee',
+                                image: 'white-classic.jpg',
+                                price: 41.98,
+                                size: 'M',
+                                quantity: 2,
+                            }
+                        ]
+                    }
+                }
+            });
+
             this.get('/products', (schema, request) => {
                 let name = decodeURIComponent(request.queryParams.name).toLowerCase();
                 let limit = request.queryParams.limit;
