@@ -198,6 +198,10 @@
                 border-bottom: 1px solid $accent2;
                 padding-top: 1vh;
                 margin-bottom: 1vh;
+                margin-left: 0;
+                animation-name: showSubMenu;
+                animation-duration: .9s;
+                animation-timing-function: ease;
 
                 p {
                     color: $text;
