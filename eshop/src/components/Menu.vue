@@ -24,7 +24,7 @@
         </div>
 
         <div class="menu-container" :class="{open: isOpen, close: isClose}">
-            <div v-if="actualSubMenu != null" class="sub-menu">
+            <div v-if="actualSubMenu != null && actualMenu != 'search' && actualMenu != 'cart'" class="sub-menu">
                 <ul>
                     <li :class="{open: actualSubMenu['isOpen'], close: actualSubMenu['isClose']}" v-for="menu in actualSubMenu['items']" :key="menu.id">
                         {{ menu['name'] }}
@@ -40,9 +40,9 @@
                     </li>
                 </ul>
             </div>
-            <div v-if="actualSubMenu == null && actualMenu == 'search'" class="sub-menu search">
-                <input type="text" v-on:keyup="searchProducts" v-model="search"/>
-                <button v-on:click="reset">X</button>
+            <div v-if="actualSubMenu != null && actualMenu == 'search'" class="sub-menu search">
+                <input type="text" v-on:keyup="searchProducts" :class="{open: actualSubMenu['isOpen'], close: actualSubMenu['isClose']}" v-model="search"/>
+                <button v-on:click="reset" :class="{open: actualSubMenu['isOpen'], close: actualSubMenu['isClose']}">X</button>
                 <ul>
                     <li v-for="result in results" :key="result.id">
                         {{ result['name'] }}
@@ -59,10 +59,10 @@
                     <li class="no-results" v-if="noResults">No results for this.</li>
                 </ul>
             </div>
-            <div v-if="actualSubMenu == null && actualMenu == 'cart'" class="sub-menu cart">
+            <div v-if="actualSubMenu != null && actualMenu == 'cart'" class="sub-menu cart">
                 <span v-if="!cart">Your shopping cart is empty.</span>
                 <ul v-else="">
-                    <li v-for="item in cart['items']" :key="item.id">
+                    <li :class="{open: actualSubMenu['isOpen'], close: actualSubMenu['isClose']}" v-for="item in cart['items']" :key="item.id">
                         {{ item['name'] }}
                         <div class="infos">
                             <div class="left">
@@ -76,7 +76,7 @@
                         </div>
                     </li>
                 </ul>
-                <div class="subtotal">
+                <div :class="{open: actualSubMenu['isOpen'], close: actualSubMenu['isClose']}" class="subtotal">
                     <div>
                         <span>Subtotal</span>
                         <span>${{ cart['subtotal'] }}</span>
@@ -154,8 +154,13 @@ export default {
                     this.actualMenu = null;
                     this.actualSubMenu = null;
                 } else {
-                    this.actualMenu = menu;
-                    this.openSubMenu();
+                    this.actualSubMenu['isOpen'] = false;
+                    this.actualSubMenu['isClose'] = true;
+                    this.$forceUpdate();
+                    setTimeout(() => {
+                        this.actualMenu = menu;
+                        this.openSubMenu();
+                    }, 300);
                 }
             } else {
                 this.isOpen = true;
@@ -165,27 +170,22 @@ export default {
             }
         },
         openSubMenu() {
-            if (this.actualSubMenu) {
-                this.actualSubMenu['isClose'] = true;
-            }
-            setTimeout(() => {
-                this.actualSubMenu = null;
-                if (this.actualMenu == 'explore') {
-                    console.log();
-                } else if (this.actualMenu == 'search') {
-                    console.log();
-                } else if (this.actualMenu == 'cart') {
-                    console.log();
-                } else {
-                    for (var i = 0; i < this.menus.length; i++) {
-                        if (this.menus[i]['id'] == this.actualMenu) {
-                            this.actualSubMenu = this.menus[i];
-                        }
+            this.actualSubMenu = null;
+            if (this.actualMenu == 'explore') {
+                console.log();
+            } else if (this.actualMenu == 'search' || this.actualMenu == 'cart') {
+                this.actualSubMenu = {};
+                this.actualSubMenu['isClose'] = false;
+                this.actualSubMenu['isOpen'] = true;
+            } else {
+                for (var i = 0; i < this.menus.length; i++) {
+                    if (this.menus[i]['id'] == this.actualMenu) {
+                        this.actualSubMenu = this.menus[i];
                     }
-                    this.actualSubMenu['isClose'] = false;
-                    this.actualSubMenu['isOpen'] = true;
                 }
-            }, 300);
+                this.actualSubMenu['isClose'] = false;
+                this.actualSubMenu['isOpen'] = true;
+            }
         }
     },
 }

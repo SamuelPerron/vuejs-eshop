@@ -188,10 +188,17 @@
             padding: 1vh 1vw;
             padding-right: 5%;
             font-family: 'Spartan', Sans-Serif;
-            animation-name: showInput;
             animation-timing-function: ease;
             animation-duration: .6s;
             border: 1px solid $accent1;
+        }
+
+        input.open {
+            animation-name: showInput;
+        }
+
+        input.close {
+            animation-name: hideInput;
         }
 
         ul {
@@ -207,9 +214,8 @@
                 padding-top: 1vh;
                 margin-bottom: 1vh;
                 margin-left: 0;
-                animation-name: showSubMenu;
-                animation-duration: .9s;
                 animation-timing-function: ease;
+                animation-duration: 1s;
 
                 p {
                     color: $pale-text;
@@ -269,6 +275,17 @@
                     content: "";
                 }
             }
+
+            li.open {
+                animation-name: showSubMenu;
+                opacity: 1;
+                margin-left: 0;
+            }
+
+            li.close {
+                animation-name: hideSubMenu;
+                animation-duration: .5s;
+            }
         }
 
         button {
@@ -285,9 +302,16 @@
             display: block;
             top: 14vh;
             padding: 0;
-            animation-name: show;
             animation-timing-function: ease;
             animation-duration: 2s;
+        }
+
+        button.open {
+            animation-name: show;
+        }
+
+        button.close {
+            opacity: 0;
         }
     }
 
@@ -329,6 +353,8 @@
             width: 85%;
             border-top: 1px solid $accent2;
             padding-top: 2vh;
+            animation-timing-function: ease;
+            animation-duration: 1s;
 
             div {
                 display: flex;
@@ -365,6 +391,17 @@
                     color: $accent1;
                 }
             }
+        }
+
+        .subtotal.open {
+            animation-name: showSubMenu;
+            opacity: 1;
+            margin-left: 0;
+        }
+
+        .subtotal.close {
+            animation-name: hideSubMenu;
+            animation-duration: .5s;
         }
     }
 }
@@ -414,10 +451,21 @@
 
 @keyframes showInput {
     0% {
+        opacity: 0;
         width: 0;
     }
     100% {
         width: 90%;
+    }
+}
+
+@keyframes hideInput {
+    0% {
+        width: 90%;
+    }
+    100% {
+        width: 0;
+        opacity: 0;
     }
 }
 
