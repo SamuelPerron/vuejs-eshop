@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import App from './App.vue'
-import Main from './components/Main.vue'
 import { makeServer } from './server'
 import './assets/css/variables.scss';
 
+import Main from './components/Main.vue'
+import Explore from './components/Explore.vue'
 
 Vue.use(Router)
 
@@ -17,6 +18,11 @@ const router = new Router(
                 path: '/',
                 name: 'home',
                 component: Main,
+            },
+            {
+                path: '/explore',
+                name: 'explore',
+                component: Explore,
             },
         ]
     }

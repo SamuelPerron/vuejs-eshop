@@ -3,7 +3,7 @@
         <div class="menu-dim" :class="{open: isOpen}"></div>
 
         <div class="menu-top">
-            <h1>Outline</h1>
+            <h1 v-on:click="returnToHome">Outline</h1>
             <ul>
                 <li v-for="categorie in menus" :key="categorie.id" :class="{open: isOpen}" v-on:click="openMenu(categorie['id'])">{{ categorie['name'] }}</li>
                 <li :class="{open: isOpen}" v-on:click="openMenu('explore')">Explore</li>
@@ -146,6 +146,14 @@ export default {
                 that.menus = response.data.categories;
             });
         },
+        returnToHome() {
+            this.$router.push('/');
+            if (this.isOpen) {
+                this.isOpen = false;
+                this.isClose = true;
+                this.actualSubMenu = null;
+            }
+        },
         openMenu(menu) {
             if (this.isOpen) {
                 if (this.actualMenu == menu) {
@@ -158,34 +166,41 @@ export default {
                     this.actualSubMenu['isClose'] = true;
                     this.$forceUpdate();
                     setTimeout(() => {
-                        this.actualMenu = menu;
-                        this.openSubMenu();
+                        if (menu == 'explore') {
+                            this.$router.push('/explore');
+                            this.isOpen = false;
+                            this.isClose = true;
+                            this.actualSubMenu = null;
+                        } else {
+                            this.actualMenu = menu;
+                            this.openSubMenu();
+                        }
                     }, 300);
                 }
             } else {
-                this.isOpen = true;
-                this.isClose = false;
-                this.actualMenu = menu;
-                this.openSubMenu();
+                if (menu == 'explore') {
+                    this.$router.push('/explore');
+                } else {
+                    this.isOpen = true;
+                    this.isClose = false;
+                    this.actualMenu = menu;
+                    this.openSubMenu();
+                }
             }
         },
         openSubMenu() {
             this.actualSubMenu = null;
-            if (this.actualMenu == 'explore') {
-                console.log();
-            } else if (this.actualMenu == 'search' || this.actualMenu == 'cart') {
+            if (this.actualMenu == 'search' || this.actualMenu == 'cart') {
                 this.actualSubMenu = {};
-                this.actualSubMenu['isClose'] = false;
-                this.actualSubMenu['isOpen'] = true;
             } else {
                 for (var i = 0; i < this.menus.length; i++) {
                     if (this.menus[i]['id'] == this.actualMenu) {
                         this.actualSubMenu = this.menus[i];
                     }
                 }
-                this.actualSubMenu['isClose'] = false;
-                this.actualSubMenu['isOpen'] = true;
             }
+            this.actualSubMenu['isClose'] = false;
+            this.actualSubMenu['isOpen'] = true;
         }
     },
 }
