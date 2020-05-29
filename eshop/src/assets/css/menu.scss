@@ -40,7 +40,7 @@
         align-items: center;
         padding: 0 5vw 0 0;
         margin: 0;
-        z-index: 3;
+        z-index: 5;
 
         li {
             display: inline-block;
@@ -85,7 +85,7 @@
     top: 0;
     right: -30vw;
     background-color: $white;
-    z-index: 2;
+    z-index: 4;
     animation-duration: .9s;
     animation-timing-function: ease;
     user-select: none;

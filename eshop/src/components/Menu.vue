@@ -1,6 +1,6 @@
 <template>
     <div class="menu">
-        <div class="menu-dim" :class="{open: isOpen}"></div>
+        <!-- <div class="menu-dim" :class="{open: isOpen}"></div> -->
 
         <div class="menu-top">
             <h1 v-on:click="returnToHome">Outline</h1>

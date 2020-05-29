@@ -1,0 +1,27 @@
+@import "@/assets/css/variables.scss";
+
+.rating {
+    display: flex;
+    justify-content: space-between;
+    width: 10vw;
+
+    .stars {
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        padding-left: 0;
+        margin-top: 0;
+
+        li {
+            path {
+                fill: $accent1;
+            }
+        }
+
+        li.empty-star {
+            path {
+                fill: $pale-accent;
+            }
+        }
+    }
+}

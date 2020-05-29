@@ -6,6 +6,7 @@ import './assets/css/variables.scss';
 
 import Main from './components/Main.vue'
 import Explore from './components/Explore.vue'
+import Product from './components/Product.vue'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ const router = new Router(
                 path: '/explore',
                 name: 'explore',
                 component: Explore,
+            },
+            {
+                path: '/product/:id',
+                name: 'product',
+                component: Product,
             },
         ]
     }
