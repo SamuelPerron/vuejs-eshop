@@ -59,47 +59,62 @@
                 }
             }
 
-            .size {
-                margin-top: 5vh;
-                display: block;
-            }
+            .options {
+                list-style: none;
+                padding-left: 0;
+                display: flex;
 
-            .formats {
-                animation: showFromRight ease 1s;
-                border: solid $accent1 1px;
-                background: none;
-                padding: 1vh 1vw;
-                font-size: 1rem;
-                appearance: none;
-                cursor: pointer;
+                li {
+                    margin-left: 2vw;
 
-                option {
-                    color: $accent1;
-                    font-size: 1.5rem;
-                    margin-left: 1vw;
-                    padding: .5rem;
-                    min-width: 5vw;
-                    min-height: 1.5rem;
-                    text-align: center;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: .3s;
+                    strong {
+                        margin-top: 5vh;
+                        display: block;
+                    }
 
-                    &:hover,
-                    &.clicked {
-                        background-color: $accent2;
+                    select,
+                    input {
+                        animation: showFromRight ease 1s;
+                        border: solid $accent1 1px;
+                        background: none;
+                        padding: 1vh 1vw;
+                        font-size: 1rem;
+                        appearance: textfield;
+                        cursor: pointer;
+
+                        option {
+                            color: $accent1;
+                            font-size: 1.5rem;
+                            margin-left: 1vw;
+                            padding: .5rem;
+                            min-width: 5vw;
+                            min-height: 1.5rem;
+                            text-align: center;
+                            font-weight: bold;
+                            cursor: pointer;
+                            transition: .3s;
+
+                            &:hover,
+                            &.clicked {
+                                background-color: $accent2;
+                            }
+
+                            &:first-child {
+                                margin-left: 0;
+                            }
+                        }
+
+                        &:after {
+                            content: ">";
+                            width: 25px;
+                            height: 25px;
+                            display: block;
+                        }
                     }
 
                     &:first-child {
                         margin-left: 0;
                     }
-                }
-
-                &:after {
-                    content: ">";
-                    width: 25px;
-                    height: 25px;
-                    display: block;
                 }
             }
 

@@ -69,7 +69,6 @@ export function makeServer({ environment = 'development' } = {}) {
                     for (var i = 0; i < all.length; i++) {
                         if (all[i]['id'] == id) {
                             result = all[i]['attrs'];
-                            console.log(result);
                             break;
                         }
                     }
@@ -136,6 +135,12 @@ export function makeServer({ environment = 'development' } = {}) {
                             image: '30-day.png'
                         },
                     ]
+                }
+            });
+
+            this.get('/alert', () => {
+                return {
+                    'alert': 'You may experience a delay of 2 to 4 days'
                 }
             });
         },

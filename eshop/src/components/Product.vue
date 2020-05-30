@@ -1,5 +1,5 @@
 <template>
-    <div class="product">
+    <div class="product" v-if="infos != {}">
         <div class="top">
             <div class="left">
                 <img :src="'images/products/' + infos['image']">
@@ -12,11 +12,19 @@
                 </div>
                 <Rating :score="infos['rating']" :nb="infos['ratings'].length"/>
                 <div class="description" v-html="infos['description']"/>
-                <strong class="size">Size</strong>
-                <select class="formats">
-                    <option v-for="format in infos['sizes']" :key="format.id">{{ format }}</option>
-                </select>
-                <button>Add to cart</button>
+                <ul class="options">
+                    <li>
+                        <strong>Size</strong>
+                        <select v-model="size">
+                            <option v-for="format in infos['sizes']" :key="format.id">{{ format }}</option>
+                        </select>
+                    </li>
+                    <li>
+                        <strong>Quantity</strong>
+                        <input type="number" v-model="quantity">
+                    </li>
+                </ul>
+                <button v-on:click="addToCart">Add to cart</button>
             </div>
         </div>
 
@@ -60,7 +68,7 @@
         <div class="related-products">
             <h2>Products that would fit well with this</h2>
             <ul>
-                <li data-aos="fade-up" v-for="product in infos['relatedProducts']" :key="product.id">
+                <li data-aos="fade-up" v-for="product in infos['relatedProducts']" :key="product.id" v-on:click="shopNow(product['id'])">
                     <div class="container">
                         <div class="image">
                             <img :src="'images/products/' + product['image']">
@@ -98,9 +106,11 @@ export default {
     },
     data() {
         return {
-            'infos': null,
+            'infos': {},
             'shopFeatures': [],
             'parallax': {},
+            'size': 'M',
+            'quantity': 1,
         }
     },
     created() {
@@ -108,12 +118,16 @@ export default {
         this.fetchShopFeatures();
     },
     methods: {
+        shopNow(id) {
+            this.$router.push('/product/' + id);
+        },
         fetchInfos() {
             var that = this;
             this.$http.get('/api/product/' + this.$route.params.id).
             then(function(response) {
                 that.infos = response.data.product;
                 that.parallax['backgroundImage'] = "url('images/products/" + that.infos['banner'] + "')";
+                that.$forceUpdate();
             });
         },
         fetchShopFeatures() {
@@ -123,6 +137,15 @@ export default {
                 that.shopFeatures = response.data.features;
             });
         },
-    }
+        addToCart() {
+            console.log('Add to cart\nSize: ' + this.size + ' x' + this.quantity);
+        },
+    },
+    watch: {
+        '$route'() {
+            this.fetchInfos();
+            this.fetchShopFeatures();
+        }
+    },
 }
 </script>

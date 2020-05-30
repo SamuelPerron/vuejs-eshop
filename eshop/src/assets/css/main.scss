@@ -11,35 +11,14 @@ body {
     overflow-x: hidden;
 }
 
+::selection {
+  background: $accent1;
+  color: $white;
+}
+
 .new-page-enter-active {
     animation: new-page ease 2s;
 }
-
-// .new-page-enter-active {
-//     animation: new-page ease 2s;
-//     position: fixed;
-//     bottom: -100vh;
-//     height: 100vh;
-//     width: 100vw;
-//     opacity: 0;
-//     z-index: 99999;
-//     background-color: $accent1;
-// }
-//
-// @keyframes new-page {
-//     0% {
-//         bottom: -100vh;
-//         opacity: 1;
-//     }
-//     40% {
-//         bottom: 0;
-//         opacity: 1;
-//     }
-//     100% {
-//         bottom: -100vh;
-//         opacity: 0;
-//     }
-// }
 
 @keyframes new-page {
     0% {
