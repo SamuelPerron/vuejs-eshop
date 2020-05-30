@@ -1,0 +1,14 @@
+@import "@/assets/css/variables.scss";
+
+.alert {
+    padding: 1vh 0;
+    background-color: $accent1;
+    color: $white;
+    font-size: .9rem;
+    display: flex;
+    justify-content: space-around;
+
+    p {
+        margin: 0;
+    }
+}
