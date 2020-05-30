@@ -59,20 +59,26 @@
                 }
             }
 
-            .formats {
+            .size {
                 margin-top: 5vh;
-                padding: 0;
-                list-style: none;
-                display: flex;
-                animation: showFromRight ease 1s;
+                display: block;
+            }
 
-                li {
-                    border: solid $accent1 1px;
+            .formats {
+                animation: showFromRight ease 1s;
+                border: solid $accent1 1px;
+                background: none;
+                padding: 1vh 1vw;
+                font-size: 1rem;
+                appearance: none;
+                cursor: pointer;
+
+                option {
                     color: $accent1;
                     font-size: 1.5rem;
                     margin-left: 1vw;
                     padding: .5rem;
-                    min-width: 1.5rem;
+                    min-width: 5vw;
                     min-height: 1.5rem;
                     text-align: center;
                     font-weight: bold;
@@ -87,6 +93,13 @@
                     &:first-child {
                         margin-left: 0;
                     }
+                }
+
+                &:after {
+                    content: ">";
+                    width: 25px;
+                    height: 25px;
+                    display: block;
                 }
             }
 
@@ -145,7 +158,10 @@
         background-color: $text;
         height: 30vh;
         overflow: hidden;
-        // parallax
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
 
         img {
             width: 100%;
@@ -223,7 +239,7 @@
     }
 
     .related-products {
-        background-color: $accent2;
+        background-color: $accent3;
         height: 80vh;
         padding-top: 10vh;
 
@@ -244,11 +260,12 @@
                 height: 60vh;
                 padding: 3vh 2vw;
                 width: 15vw;
-                background-color: $accent3;
+                background-color: $white;
                 cursor: pointer;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                box-shadow: 5px 5px 0px 5px $accent2;
 
                 .product-title {
                     display: flex;
@@ -285,6 +302,7 @@
                     font-size: 1.1rem;
                     color: $white;
                     transition: .3s;
+                    cursor: pointer;
                 }
 
                 &:hover {

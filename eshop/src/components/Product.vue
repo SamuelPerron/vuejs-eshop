@@ -12,9 +12,10 @@
                 </div>
                 <Rating :score="infos['rating']" :nb="infos['ratings'].length"/>
                 <div class="description" v-html="infos['description']"/>
-                <ul class="formats">
-                    <li v-for="format in infos['sizes']" :key="format.id">{{ format }}</li>
-                </ul>
+                <strong class="size">Size</strong>
+                <select class="formats">
+                    <option v-for="format in infos['sizes']" :key="format.id">{{ format }}</option>
+                </select>
                 <button>Add to cart</button>
             </div>
         </div>
@@ -28,9 +29,7 @@
             </ul>
         </div>
 
-        <div class="banner">
-            <img :src="'images/products/' + infos['banner']">
-        </div>
+        <div class="banner" :style="parallax"></div>
 
         <div class="features-pictures">
             <h2>Why you'll love the {{ infos['name'] }}</h2>
@@ -39,7 +38,7 @@
                     <img :src="'images/products/' + feature['image']">
                 </div>
 
-                <div class="text">
+                <div class="text" data-aos="fade-left">
                     <h3>{{ feature['title'] }}</h3>
                     <div v-html="feature['description']"/>
                 </div>
@@ -61,7 +60,7 @@
         <div class="related-products">
             <h2>Products that would fit well with this</h2>
             <ul>
-                <li v-for="product in infos['relatedProducts']" :key="product.id">
+                <li data-aos="fade-up" v-for="product in infos['relatedProducts']" :key="product.id">
                     <div class="container">
                         <div class="image">
                             <img :src="'images/products/' + product['image']">
@@ -101,6 +100,7 @@ export default {
         return {
             'infos': null,
             'shopFeatures': [],
+            'parallax': {},
         }
     },
     created() {
@@ -113,6 +113,7 @@ export default {
             this.$http.get('/api/product/' + this.$route.params.id).
             then(function(response) {
                 that.infos = response.data.product;
+                that.parallax['backgroundImage'] = "url('images/products/" + that.infos['banner'] + "')";
             });
         },
         fetchShopFeatures() {
