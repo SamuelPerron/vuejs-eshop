@@ -6,6 +6,8 @@ export function makeServer({ environment = 'development' } = {}) {
         environment,
         models: {
             product: Model,
+            category: Model,
+            subCategory: Model,
         },
         routes() {
             this.namespace = 'api';
@@ -37,6 +39,8 @@ export function makeServer({ environment = 'development' } = {}) {
 
             this.get('/products', (schema, request) => {
                 let name = decodeURIComponent(request.queryParams.name).toLowerCase();
+                let category = decodeURIComponent(request.queryParams.category).toLowerCase();
+                let subCategory = decodeURIComponent(request.queryParams.subCategory).toLowerCase();
                 let limit = request.queryParams.limit;
                 let all = schema.products.all()['models'];
                 var results = [];
@@ -49,14 +53,32 @@ export function makeServer({ environment = 'development' } = {}) {
                             break;
                         }
                     }
-                    return {
-                        'products': results,
+                }
+
+                if (category && category != '' && category != ' ') {
+                    for (var j = 0; j < all.length; j++) {
+                        if (all[j]['category'] == category) {
+                            if (subCategory && subCategory != '' && subCategory != ' ') {
+                                if (all[j]['subCategory'] == subCategory) {
+                                    results.push(all[j]);
+                                }
+                            } else {
+                                results.push(all[j]);
+                            }
+                        }
+                        if (limit && results.length == limit) {
+                            break;
+                        }
                     }
                 }
 
-                if (name == undefined) {
+                if (name == undefined && category == undefined) {
                     return {
                         'products': all,
+                    }
+                } else {
+                    return {
+                        'products': results,
                     }
                 }
             });
@@ -78,18 +100,41 @@ export function makeServer({ environment = 'development' } = {}) {
                 }
             });
 
+            this.get('/category/:parent/:sub', (schema, request) => {
+                let parent = request.params.parent
+                let sub = request.params.sub
+                let categories = schema.categories.all()['models'];
+                let subCategories = schema.subCategories.all()['models'];
+                var resultParent = null;
+                var resultSub = null;
+                if (parent && sub) {
+                    for (var i = 0; i < subCategories.length; i++) {
+                        if (subCategories[i]['slug'] == sub && categories[i]['slug'] == parent) {
+                            resultParent = categories[i]['attrs'];
+                            resultSub = subCategories[i]['attrs'];
+                            break;
+                        }
+                    }
+                    return {
+                        'category': resultParent,
+                        'subCategory': resultSub,
+                    }
+                }
+            });
+
             this.get('/categories', () => {
                 return {
                     'categories': [
                         {
                             id: 1,
                             name: 'Men',
+                            slug: 'men',
                             items: [
-                                {name: 'Tees', description: 'Curabitur sit amet ligula vitae purus dictum fringilla.', image: 'tees.jpg'},
-                                {name: 'Polos', description: 'Sed sed efficitur velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: 'polo.jpg'},
-                                {name: 'Dress Shirts', description: 'Aliquam eu purus odio. Fusce lacinia sem aliquet risus bibendum sollicitudin.', image: 'shirt.jpg'},
-                                {name: 'Sweaters', description: 'In euismod laoreet purus, sit amet ornare felis interdum quis.', image: 'sweater.jpg'},
-                                {name: 'Shoes', description: 'Donec facilisis et dolor in eleifend.', image: 'shoes.jpg'},
+                                {name: 'Tees', slug: 'tees', description: 'Curabitur sit amet ligula vitae purus dictum fringilla.', image: 'tees.jpg'},
+                                {name: 'Polos', slug: 'polos', description: 'Sed sed efficitur velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: 'polo.jpg'},
+                                {name: 'Dress Shirts', slug: 'dress-shirts', description: 'Aliquam eu purus odio. Fusce lacinia sem aliquet risus bibendum sollicitudin.', image: 'shirt.jpg'},
+                                {name: 'Sweaters', slug: 'sweaters', description: 'In euismod laoreet purus, sit amet ornare felis interdum quis.', image: 'sweater.jpg'},
+                                {name: 'Shoes', slug: 'shoes', description: 'Donec facilisis et dolor in eleifend.', image: 'shoes.jpg'},
                             ],
                             isOpen: false,
                             isClose: false,
@@ -97,12 +142,13 @@ export function makeServer({ environment = 'development' } = {}) {
                         {
                             id: 2,
                             name: 'Women',
+                            slug: 'women',
                             items: [
-                                {name: 'Tops', description: 'Curabitur sit amet ligula vitae purus dictum fringilla.', image: 'top.jpg'},
-                                {name: 'Dresses', description: 'Sed sed efficitur velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: 'dress.jpg'},
-                                {name: 'Jumpsuits & Rompers', description: 'Aliquam eu purus odio. Fusce lacinia sem aliquet risus bibendum sollicitudin.', image: 'romper.jpg'},
-                                {name: 'Leggings', description: 'In euismod laoreet purus, sit amet ornare felis interdum quis.', image: 'leggings.jpg'},
-                                {name: 'Skirts', description: 'Donec facilisis et dolor in eleifend.', image: 'skirt.jpg'},
+                                {name: 'Tops', slug: 'tops', description: 'Curabitur sit amet ligula vitae purus dictum fringilla.', image: 'top.jpg'},
+                                {name: 'Dresses', slug: 'dresses', description: 'Sed sed efficitur velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: 'dress.jpg'},
+                                {name: 'Jumpsuits & Rompers', slug: 'jumpsuits-and-rompers', description: 'Aliquam eu purus odio. Fusce lacinia sem aliquet risus bibendum sollicitudin.', image: 'romper.jpg'},
+                                {name: 'Leggings', slug: 'leggings', description: 'In euismod laoreet purus, sit amet ornare felis interdum quis.', image: 'leggings.jpg'},
+                                {name: 'Skirts', slug: 'skirts', description: 'Donec facilisis et dolor in eleifend.', image: 'skirt.jpg'},
                             ],
                             isOpen: false,
                             isClose: false,
@@ -140,7 +186,7 @@ export function makeServer({ environment = 'development' } = {}) {
 
             this.get('/alert', () => {
                 return {
-                    'alert': 'You may experience a delay of 2 to 4 days'
+                    'alert': 'You may experience a delay of 2 to 4 days before shipping'
                 }
             });
         },
@@ -149,8 +195,10 @@ export function makeServer({ environment = 'development' } = {}) {
                 id: 1,
                 name: 'Green classic tee',
                 description: '<p>Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.</p><ul><li>nulla</li><li>metus</li><li>fermentum</li><li>vitae</li></ul><p>Mauris pellentesque ipsum at odio efficitur varius. Fusce <strong>consequat</strong> nibh eget neque posuere consectetur.</p>',
+                shortDescription: 'Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.',
                 image: 'green-classic.jpg',
                 banner: 'green-classic-4.jpg',
+                cutout: 'shirt-cutout.png',
                 rating: 4,
                 ratings: [
                     {
@@ -244,7 +292,10 @@ export function makeServer({ environment = 'development' } = {}) {
                 id: 2,
                 name: 'White classic tee',
                 description: 'Mauris pellentesque ipsum at odio efficitur varius. Fusce consequat nibh eget neque posuere consectetur.',
+                shortDescription: 'Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.',
                 image: 'white-classic.jpg',
+                banner: 'green-classic-4.jpg',
+                cutout: 'shirt-cutout.png',
                 price: 20.99,
                 sizes: ['XS', 'S', 'M', 'X', 'XL'],
                 inventory: 9999,
@@ -255,7 +306,10 @@ export function makeServer({ environment = 'development' } = {}) {
                 id: 3,
                 name: 'Pink classic tee',
                 description: 'Duis eleifend aliquam elit ut tristique. Nunc facilisis lacinia felis in semper.',
+                shortDescription: 'Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.',
                 image: 'pink-classic.jpg',
+                banner: 'green-classic-4.jpg',
+                cutout: 'shirt-cutout.png',
                 price: 20.99,
                 sizes: ['XS', 'S', 'M', 'X'],
                 inventory: 9999,
@@ -266,7 +320,10 @@ export function makeServer({ environment = 'development' } = {}) {
                 id: 4,
                 name: 'Pacman tee',
                 description: 'Nullam interdum, vulputate gravida urna molestie. Ut quis mauris faucibus, ullamcorper dolor in, eleifend nunc. Aliquam erat volutpat.',
+                shortDescription: 'Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.',
                 image: 'pacman.jpg',
+                banner: 'green-classic-4.jpg',
+                cutout: 'shirt-cutout.png',
                 price: 49.99,
                 sizes: ['S', 'M'],
                 inventory: 99,
@@ -277,12 +334,42 @@ export function makeServer({ environment = 'development' } = {}) {
                 id: 5,
                 name: 'Eat right, Work hard, Feel good tee',
                 description: 'Maecenas quis nibh risus. Sed euismod neque leo, sed placerat leo scelerisque a. Vestibulum aliquam suscipit augue.',
+                shortDescription: 'Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.',
                 image: 'work-hard.jpg',
+                banner: 'green-classic-4.jpg',
+                cutout: 'shirt-cutout.png',
                 price: 22.99,
                 sizes: ['M',],
                 inventory: 99,
                 category: 1,
                 subCategory: 1,
+            });
+
+            server.create('category', {
+                id: 1,
+                name: 'Men',
+                slug: 'men',
+                subCategories: [1, 2, 3, 4, 5],
+                // items: [
+                //     {name: 'Tees', slug: 'tees', description: 'Curabitur sit amet ligula vitae purus dictum fringilla.', image: 'tees.jpg'},
+                //     {name: 'Polos', slug: 'polos', description: 'Sed sed efficitur velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: 'polo.jpg'},
+                //     {name: 'Dress Shirts', slug: 'dress-shirts', description: 'Aliquam eu purus odio. Fusce lacinia sem aliquet risus bibendum sollicitudin.', image: 'shirt.jpg'},
+                //     {name: 'Sweaters', slug: 'sweaters', description: 'In euismod laoreet purus, sit amet ornare felis interdum quis.', image: 'sweater.jpg'},
+                //     {name: 'Shoes', slug: 'shoes', description: 'Donec facilisis et dolor in eleifend.', image: 'shoes.jpg'},
+                // ],
+                isOpen: false,
+                isClose: false,
+            });
+
+            server.create('subCategory', {
+                id: 1,
+                name: 'Tees',
+                longName: 'Men Tees',
+                slug: 'tees',
+                description: 'Curabitur sit amet ligula vitae purus dictum fringilla.',
+                image: 'tees.jpg',
+                banner: 'tees-banner.jpg',
+                parent: 1,
             });
         }
     });

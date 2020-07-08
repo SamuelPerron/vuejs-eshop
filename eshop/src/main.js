@@ -7,6 +7,7 @@ import './assets/css/variables.scss';
 import Main from './components/Main.vue'
 import Explore from './components/Explore.vue'
 import Product from './components/Product.vue'
+import Shop from './components/Shop.vue'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ const router = new Router(
                 path: '/product/:id',
                 name: 'product',
                 component: Product,
+            },
+            {
+                path: '/shop/:category/:subCategory',
+                name: 'shop',
+                component: Shop,
             },
         ]
     }

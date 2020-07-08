@@ -4,9 +4,7 @@
 
       <Alert/>
       <Menu/>
-      <transition name="new-page">
-          <router-view/>
-      </transition>
+      <router-view/>
   </div>
 </template>
 

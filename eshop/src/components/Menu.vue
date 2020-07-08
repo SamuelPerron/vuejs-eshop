@@ -26,8 +26,8 @@
         <div class="menu-container" :class="{open: isOpen, close: isClose}">
             <div v-if="actualSubMenu != null && actualMenu != 'search' && actualMenu != 'cart'" class="sub-menu">
                 <ul>
-                    <li :class="{open: actualSubMenu['isOpen'], close: actualSubMenu['isClose']}" v-for="menu in actualSubMenu['items']" :key="menu.id">
-                        {{ menu['name'] }}
+                    <li v-on:click="closeMenu" :class="{open: actualSubMenu['isOpen'], close: actualSubMenu['isClose']}" v-for="menu in actualSubMenu['items']" :key="menu.id">
+                        <router-link class="link" :to="{ name: 'shop', params: {category: actualMenuSlug,subCategory: menu['slug']}, }">{{ menu['name'] }}</router-link>
                         <div class="bottom">
                             <div class="left">
                                 <img :src="'images/' + menu['image']">
@@ -98,6 +98,7 @@ export default {
             isOpen: false,
             isClose: false,
             actualMenu: null,
+            actualMenuSlug: null,
             actualSubMenu: null,
             menus: [],
             search: '',
@@ -127,7 +128,6 @@ export default {
             this.results = [];
             this.noResults = false;
             if (this.search != '' || this.search != ' ') {
-                console.log(this.search);
                 var that = this;
                 this.$http.get('/api/products?name=' + encodeURIComponent(this.search) + '&limit=3').
                 then(function(response) {
@@ -146,21 +146,21 @@ export default {
                 that.menus = response.data.categories;
             });
         },
-        returnToHome() {
-            this.$router.push('/');
+        closeMenu() {
             if (this.isOpen) {
                 this.isOpen = false;
                 this.isClose = true;
                 this.actualSubMenu = null;
             }
         },
+        returnToHome() {
+            this.$router.push('/');
+            this.closeMenu();
+        },
         openMenu(menu) {
             if (this.isOpen) {
                 if (this.actualMenu == menu) {
-                    this.isOpen = false;
-                    this.isClose = true;
-                    this.actualMenu = null;
-                    this.actualSubMenu = null;
+                    this.closeMenu();
                 } else {
                     this.actualSubMenu['isOpen'] = false;
                     this.actualSubMenu['isClose'] = true;
@@ -168,9 +168,7 @@ export default {
                     setTimeout(() => {
                         if (menu == 'explore') {
                             this.$router.push('/explore');
-                            this.isOpen = false;
-                            this.isClose = true;
-                            this.actualSubMenu = null;
+                            this.closeMenu();
                         } else {
                             this.actualMenu = menu;
                             this.openSubMenu();
@@ -196,6 +194,7 @@ export default {
                 for (var i = 0; i < this.menus.length; i++) {
                     if (this.menus[i]['id'] == this.actualMenu) {
                         this.actualSubMenu = this.menus[i];
+                        this.actualMenuSlug = this.actualSubMenu['slug'];
                     }
                 }
             }

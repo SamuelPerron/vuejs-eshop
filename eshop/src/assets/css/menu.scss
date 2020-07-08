@@ -105,11 +105,15 @@
                 cursor: pointer;
                 color: $text;
                 transition: .2s;
-
                 opacity: 0;
                 margin-left: 25px;
                 animation-timing-function: ease;
                 animation-duration: 1s;
+
+                a {
+                    text-decoration: none;
+                    color: $text;
+                }
 
                 .bottom {
                     height: 20vh;

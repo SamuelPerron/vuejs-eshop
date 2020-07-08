@@ -1,0 +1,87 @@
+@import "@/assets/css/variables.scss";
+
+header {
+    width: 100%;
+    height: 15vh;
+    background-color: $plain;
+    padding-top: 5vh;
+    padding-left: 5vw;
+    color: $white;
+
+    h1 {
+        margin: 0;
+        color: $accent1;
+        font-size: 3rem;
+    }
+}
+
+.products {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    overflow: hidden;
+
+    .product {
+        width: 30vw;
+        height: 100vh;
+        margin-top: 10vh;
+        margin-left: 2vw;
+
+        .images {
+            height: 60%;
+            text-align: center;
+
+            .changing {
+                height: 100%;
+                overflow: hidden;
+                position:relative;
+                margin:0 auto;
+
+                .product-banner,
+                .product-image {
+                    position: absolute;
+                    left: 0;
+                    width: 100%;
+                    transition: opacity .3s ease-in-out;
+                }
+            }
+
+            .product-cutout {
+                height: 70%;
+                position: relative;
+                margin-top: -50%;
+            }
+        }
+
+        .informations {
+            margin-top: 30%;
+            padding: 0 20px;
+
+            button {
+                border: 1px solid $accent1;
+                background-color: $accent1;
+                width: 100%;
+                padding-top: .7rem;
+                padding-bottom: .7rem;
+                font-size: 1.1rem;
+                color: $white;
+                cursor: pointer;
+                transition: .3s;
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            .product-banner {
+                opacity: 0;
+            }
+
+            button {
+                background: none;
+                color: $accent1;
+            }
+        }
+    }
+}

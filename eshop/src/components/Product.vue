@@ -1,11 +1,11 @@
 <template>
     <div class="product" v-if="infos != {}">
-        <div class="top">
+        <div class="top" data-aos="fade-down">
             <div class="left">
                 <img :src="'images/products/' + infos['image']">
             </div>
             <div class="right">
-                <span v-if="infos['special']">{{ infos['special'] }}</span>
+                <span data-aos="fade-left" data-aos-delay="1000" v-if="infos['special']">{{ infos['special'] }}</span>
                 <div class="title">
                     <h1>{{ infos['name'] }}</h1>
                     <h2>${{ infos['price'] }}</h2>
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="features">
+        <div class="features" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
             <ul>
                 <li v-for="feature in infos['features']" :key="feature.id">
                     <img :src="'icons/' + feature['image']">
