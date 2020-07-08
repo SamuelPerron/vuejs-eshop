@@ -1,0 +1,123 @@
+@import "@/assets/css/variables.scss";
+
+footer {
+    background-color: $plain;
+    margin-top: 10vh;
+    margin-bottom: 5vh;
+    padding: 5vh 5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .link {
+        color: $white;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .newsletter {
+        width: 30vw;
+        background-color: $white;
+        padding: 5vh 2.5vw;
+        text-align: center;
+
+        h1 {
+            color: $accent1;
+        }
+
+        input {
+            border: solid $accent1 1px;
+            background: none;
+            padding: 1vh 1vw;
+            font-size: 1rem;
+            appearance: textfield;
+            cursor: pointer;
+        }
+
+        button {
+            border: 1px solid $accent1;
+            background-color: $accent1;
+            width: 25%;
+            margin-left: 20px;
+            padding-top: .7rem;
+            padding-bottom: .7rem;
+            font-size: 1.1rem;
+            color: $white;
+            cursor: pointer;
+            transition: .3s;
+
+            &:hover {
+                background: none;
+                color: $accent1;
+            }
+        }
+    }
+
+    .sitemap {
+        margin-top: 5vh;
+        width: 50%;
+
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+
+    .contact {
+        margin-top: 5vh;
+        width: 50%;
+        text-align: center;
+
+        h2 {
+            color: $accent1;
+        }
+
+        .socials {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            justify-content: center;
+
+            li {
+                margin-right: 2vw;
+
+                &:last-child {
+                    margin: 0;
+                }
+
+                img {
+                    width: 20px;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .contact-infos {
+            color: $white;
+        }
+    }
+
+    .legal {
+        margin-top: 2vh;
+
+        .legal-infos {
+            color: $pale-text;
+            font-size: .8rem;
+
+            a {
+                color: $pale-text;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

@@ -5,6 +5,7 @@
       <Alert/>
       <Menu/>
       <router-view/>
+      <Footer/>
   </div>
 </template>
 
@@ -20,12 +21,14 @@ import 'aos/dist/aos.css'
 
 import Menu from './components/Menu.vue'
 import Alert from './components/Alert.vue'
+import Footer from './components/Footer.vue'
 
 export default {
   name: 'App',
   components: {
       Menu,
-      Alert
+      Alert,
+      Footer
   },
   created() {
       AOS.init();
