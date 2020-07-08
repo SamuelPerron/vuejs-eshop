@@ -12,6 +12,21 @@ export function makeServer({ environment = 'development' } = {}) {
         routes() {
             this.namespace = 'api';
 
+            this.get('/bestsellers', (schema) => {
+                let all = schema.products.all()['models'];
+                var results = [];
+                for (var i = 0; i < all.length; i++) {
+                    if (results.length < 3) {
+                        results.push(all[i]['attrs']);
+                    } else {
+                        break;
+                    }
+                }
+                return {
+                    'products': results,
+                }
+            });
+
             this.get('/cart', () => {
                 return {
                     'cart': {

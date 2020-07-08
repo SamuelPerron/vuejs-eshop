@@ -1,0 +1,114 @@
+@import "@/assets/css/variables.scss";
+
+#main {
+    header {
+        height: 87vh;
+        padding: 0;
+
+        .blackout {
+            position: absolute;
+            height: 87vh;
+            width: 100%;
+            background-color: $plain;
+            z-index: 0;
+            opacity: .3;
+        }
+
+        .content {
+            position: relative;
+            padding: 5vh 5vw;
+            z-index: 2;
+
+            .header-block {
+                background-color: $white;
+                padding: 5vh 3vw;
+                width: 35vw;
+                margin-top: 10vh;
+
+                p {
+                    color: $text;
+                    font-size: 1.5rem;
+                }
+
+                button {
+                    border: 1px solid $accent1;
+                    background-color: $accent1;
+                    width: 8vw;
+                    padding-top: .7rem;
+                    padding-bottom: .7rem;
+                    font-size: 1.1rem;
+                    color: $white;
+                    cursor: pointer;
+                    transition: .3s;
+
+                    &:hover {
+                        background: none;
+                        color: $accent1;
+                    }
+                }
+            }
+
+            .featured-product {
+                right: 10vw;
+                text-align: right;
+                position: absolute;
+                top: 30vh;
+
+                img {
+                    height: 60vh;
+                }
+            }
+        }
+    }
+
+    .cta {
+        padding-top: 8vh;
+
+        p {
+            margin: 0 auto;
+            width: 40%;
+            text-align: center;
+            font-size: 1.5rem;
+            padding-bottom: 5vh;
+        }
+
+        ul {
+            display: flex;
+            justify-content: space-between;
+            list-style: none;
+            width: 80%;
+            margin: 0 auto;
+            height: 15vh;
+
+            li {
+                text-align: center;
+                margin: auto 0;
+
+                img {
+                    height: 64px;
+                }
+
+                h4 {
+                    margin-top: 1vh;
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .best-sellers {
+        margin-top: 10vh;
+        background-color: $pale-plain;
+
+        h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            padding-top: 5vh;
+        }
+
+        .product {
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+        }
+    }
+}
