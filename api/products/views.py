@@ -52,3 +52,14 @@ def new_product():
         'result': 'OK',
         'product': Product.query.all()[-1].to_json()
     }
+
+
+@app.route('/product/delete/', methods=['POST',])
+def delete_product():
+    data = {}
+    data.update(request.form)
+    product = Product.query.filter_by(id=data['id']).first()
+    product.delete()
+    return {
+        'result': 'OK',
+    }

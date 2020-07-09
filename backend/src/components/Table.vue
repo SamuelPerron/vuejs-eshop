@@ -3,7 +3,7 @@
     <div class="table-container">
         <div class="actions">
             <router-link class="new-btn" :to="{ name: 'product', params: { id: 'new'} }"><button>Create new {{ modelName }}</button></router-link>
-            <button :disabled="selected.length == 0">Delete</button>
+            <button v-on:click="deleteProducts" :disabled="selected.length == 0">Delete</button>
         </div>
         <div class="table">
             <div class="thead tline">
@@ -29,7 +29,6 @@ export default {
         'headers',
         'items',
         'modelName',
-        'filters',
     ],
     data() {
         return {
@@ -50,6 +49,9 @@ export default {
                 this.selected.push(item);
             }
         },
+        deleteProducts() {
+            this.$emit('delete', this.selected);
+        }
     }
 }
 </script>

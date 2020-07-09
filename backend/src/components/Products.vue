@@ -1,6 +1,6 @@
 <template>
     <div class="products">
-        <Table :headers="productsHeaders" :items="products" modelName="Product" :filters="filters"/>
+        <Table :headers="productsHeaders" :items="products" modelName="Product" @delete="deleteProducts"/>
     </div>
 </template>
 
@@ -25,6 +25,7 @@ export default {
     },
     methods: {
         fetchProducts() {
+            this.products = [];
             var that = this;
             this.$http.get(constants.apiUrl + 'products').
             then(function(response) {
@@ -33,6 +34,16 @@ export default {
                     that.products.push([data[i]['id'], data[i]['name'], 'Men', 'Tees']);
                 }
             });
+        },
+        deleteProducts(id) {
+            var formData = new FormData();
+            formData.set('id', id);
+            var that = this;
+            var url = constants.apiUrl + 'product/delete/';
+            this.$http.post(url, formData)
+            .then(function() {
+                that.fetchProducts();
+            })
         }
     }
 }
