@@ -2,7 +2,7 @@ import os
 from flask import Blueprint, request, abort, send_from_directory
 
 from ..app import app
-from .models import Product
+from .models import Product, Variant
 
 bp_products = Blueprint('bp_products', __name__)
 
@@ -11,6 +11,16 @@ def find_or_create_dir(path):
     directory = os.path.dirname(path)
     if not os.path.exists(directory):
         os.makedirs(directory)
+
+
+@app.route('/products/settings/', methods=['GET',])
+def settings():
+    return {
+        'settings': {
+            'variant_name': app.config['VARIANT_NAME'],
+            'variant_name_plural': app.config['VARIANT_NAME_PLURAL'],
+        }
+    }
 
 
 @app.route('/products/', methods=['GET',])
@@ -62,7 +72,10 @@ def product(id):
                 product.cutout = None
 
         product.save()
-        return {'result': 'OK'}
+        return {
+            'result': 'OK',
+            'product': product.to_json(),
+        }
     else:
         return {
             'product': product.to_json()
@@ -125,6 +138,50 @@ def delete_product():
     product.delete()
     return {
         'result': 'OK',
+    }
+
+
+@app.route('/variant/<int:id>', methods=['GET', 'POST',])
+def variant(id):
+    variant = Variant.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        data = {}
+        data.update(request.form)
+        if data['name'] == '':
+            abort(400, 'Fill required fields.')
+
+        variant.name = data['name']
+        variant.price_modificator = data['price_modificator']
+        variant.inventory = data['inventory']
+
+        variant.save()
+        return {
+            'result': 'OK',
+            'variant': variant.to_json(),
+        }
+    else:
+        return {
+            'variant': variant.to_json()
+        }
+
+
+@app.route('/variant/new/', methods=['POST',])
+def new_variant():
+    data = {}
+    data.update(request.form)
+    if data['name'] == '':
+        abort(400, 'Fill required fields.')
+
+    Variant(
+        name=data['name'],
+        inventory=data['inventory'],
+        price_modificator=data['price_modificator'],
+        product_id=data['product_id'],
+    )
+
+    return {
+        'result': 'OK',
+        'product': Variant.query.all()[-1].to_json()
     }
 
 

@@ -106,6 +106,29 @@
                 }
             }
 
+            .one-to-many {
+                .new {
+                    color: $color1;
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+
+                ul {
+                    display: flex;
+                    list-style: none;
+                    padding-left: 0;
+                    flex-wrap: wrap;
+
+                    li {
+                        border: 1.5px solid $color1;
+                        border-radius: 5px;
+                        padding: 2vh 1vw;
+                        margin-right: 2vw;
+                        margin-bottom: 2vh;
+                    }
+                }
+            }
+
             label {
                 display: block;
                 margin-bottom: .5vh;

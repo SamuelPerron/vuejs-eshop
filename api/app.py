@@ -16,8 +16,11 @@ naming_convention = {
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 cors = CORS(app, resources={r'/*': {'origins': '*'}})
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///api.db'
-app.config["IMAGE_UPLOADS"] = 'uploads/images'
+app.config['IMAGE_UPLOADS'] = 'uploads/images'
+app.config['VARIANT_NAME'] = 'Size'
+app.config['VARIANT_NAME_PLURAL'] = 'Sizes'
 
 db = SQLAlchemy(app, metadata=MetaData(naming_convention=naming_convention))
 migrate = Migrate(app, db)
