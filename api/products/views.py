@@ -32,18 +32,34 @@ def product(id):
         product.name = data['name']
         product.description = data['description']
         product.short_description = data['short_description']
-        product.inventory = data['inventory']
-        product.price = data['price']
+        product.base_price = data['base_price']
 
+        # Refactor this
+        path = f"{app.config['IMAGE_UPLOADS']}/products/{product.id}/"
+        find_or_create_dir(path)
         try:
-            path = f"{app.config['IMAGE_UPLOADS']}/products/{product.id}/"
-            find_or_create_dir(path)
             image = request.files['image']
             image.save(os.path.join(path, image.filename))
             product.image = f'{path}{image.filename}'
         except KeyError:
             if data['del_image'] == 'true':
                 product.image = None
+
+        try:
+            banner = request.files['banner']
+            banner.save(os.path.join(path, banner.filename))
+            product.banner = f'{path}{banner.filename}'
+        except KeyError:
+            if data['del_banner'] == 'true':
+                product.banner = None
+
+        try:
+            cutout = request.files['cutout']
+            cutout.save(os.path.join(path, cutout.filename))
+            product.cutout = f'{path}{cutout.filename}'
+        except KeyError:
+            if data['del_cutout'] == 'true':
+                product.cutout = None
 
         product.save()
         return {'result': 'OK'}
@@ -64,21 +80,37 @@ def new_product():
         name=data['name'],
         description=data['description'],
         short_description=data['short_description'],
-        price=data['price'],
-        inventory=data['inventory'],
+        base_price=data['base_price'],
         image=None,
+        banner=None,
+        cutout=None,
     )
 
+    product = Product.query.all()[-1]
+    path = f"{app.config['IMAGE_UPLOADS']}/products/{product.id}/"
+    find_or_create_dir(path)
     try:
-        product = Product.query.all()[-1]
-        path = f"{app.config['IMAGE_UPLOADS']}/products/{product.id}/"
-        find_or_create_dir(path)
         image = request.files['image']
         image.save(os.path.join(path, image.filename))
         product.image = f'{path}{image.filename}'
-        product.save()
     except KeyError:
         pass
+
+    try:
+        banner = request.files['banner']
+        banner.save(os.path.join(path, banner.filename))
+        product.banner = f'{path}{banner.filename}'
+    except KeyError:
+        pass
+
+    try:
+        cutout = request.files['cutout']
+        cutout.save(os.path.join(path, cutout.filename))
+        product.cutout = f'{path}{cutout.filename}'
+    except KeyError:
+        pass
+
+    product.save()
     return {
         'result': 'OK',
         'product': Product.query.all()[-1].to_json()

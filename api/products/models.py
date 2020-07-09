@@ -10,18 +10,22 @@ class Product(db.Model):
     description = db.Column(db.Text())
     short_description = db.Column(db.Text())
     image = db.Column(db.String(120))
-    price = db.Column(db.Float())
+    banner = db.Column(db.String(120))
+    cutout = db.Column(db.String(120))
+    base_price = db.Column(db.Float())
     inventory = db.Column(db.Integer())
     create_date = db.Column(db.String(40))
     update_date = db.Column(db.String(40))
 
-    def __init__(self, name, description, short_description, price, inventory, image):
+    def __init__(self, name, description, short_description, base_price, image, banner, cutout):
         self.name = name
         self.description = description
         self.short_description = short_description
-        self.price = price
-        self.inventory = inventory
+        self.base_price = base_price
         self.image = image
+        self.banner = banner
+        self.cutout = cutout
+        self.create_date = str(datetime.datetime.now())
         self.save()
 
     def __repr__(self):
@@ -33,21 +37,19 @@ class Product(db.Model):
             'name': self.name,
             'description': self.description,
             'short_description': self.short_description,
-            'price': self.price,
+            'base_price': self.base_price,
             'inventory': self.inventory,
             'image': self.image,
+            'banner': self.banner,
+            'cutout': self.cutout,
         }
         return to_return
 
     def save(self):
         try:
-            self.price = float(self.price)
+            self.base_price = float(self.base_price)
         except:
-            self.price = None
-        try:
-            self.inventory = int(self.inventory)
-        except:
-            self.inventory = None
+            self.base_price = None
         self.update_date = str(datetime.datetime.now())
         db.session.add(self)
         db.session.commit()

@@ -207,12 +207,12 @@ export function makeServer({ environment = 'development' } = {}) {
         },
         seeds(server) {
             server.create('product', {
-                id: 1,
-                name: 'Green classic tee',
-                description: '<p>Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.</p><ul><li>nulla</li><li>metus</li><li>fermentum</li><li>vitae</li></ul><p>Mauris pellentesque ipsum at odio efficitur varius. Fusce <strong>consequat</strong> nibh eget neque posuere consectetur.</p>',
-                shortDescription: 'Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.',
-                image: 'green-classic.jpg',
-                banner: 'green-classic-4.jpg',
+                // id: 1,
+                // name: 'Green classic tee',
+                // description: '<p>Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.</p><ul><li>nulla</li><li>metus</li><li>fermentum</li><li>vitae</li></ul><p>Mauris pellentesque ipsum at odio efficitur varius. Fusce <strong>consequat</strong> nibh eget neque posuere consectetur.</p>',
+                // shortDescription: 'Sed nec nulla ut eros imperdiet vehicula vitae porta metus. Donec fermentum pretium egestas.',
+                // image: 'green-classic.jpg',
+                // banner: 'green-classic-4.jpg',
                 cutout: 'shirt-cutout.png',
                 rating: 4,
                 ratings: [

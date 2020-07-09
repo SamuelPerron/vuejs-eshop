@@ -26,21 +26,47 @@
                 </div>
                 <div class="side-by-side">
                     <div class="group">
-                        <label for="image">Image</label>
-                        <input type="file" ref="image" v-on:change="handleImageUpload" name="image"/>
-                        <img class="preview" :src="product.image" v-if="product && product.image">
+                        <div class="group">
+                            <label for="image">Image</label>
+                            <input type="file" ref="image" v-on:change="handleImageUpload" name="image"/><br/>
+                            <img class="preview" :src="product.image" v-if="product && product.image">
+                        </div>
+                        <div class="group" v-if="product && product.image">
+                            <label for="del_image"><img src="../assets/images/delete.png"/></label>
+                            <input type="checkbox" v-model="form['del_image']" name="del_image"/>
+                        </div>
                     </div>
-                    <div class="group" v-if="product && product.image">
-                        <label for="del_image"><img src="../assets/images/delete.png"/></label>
-                        <input type="checkbox" v-model="form['del_image']" name="del_image"/>
+
+                    <div class="group">
+                        <div class="group">
+                            <label for="banner">Banner</label>
+                            <input type="file" ref="banner" v-on:change="handleBannerUpload" name="banner"/><br/>
+                            <img class="preview" :src="product.banner" v-if="product && product.banner">
+                        </div>
+                        <div class="group" v-if="product && product.banner">
+                            <label for="del_banner"><img src="../assets/images/delete.png"/></label>
+                            <input type="checkbox" v-model="form['del_banner']" name="del_banner"/>
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <div class="group">
+                            <label for="cutout">Cutout</label>
+                            <input type="file" ref="cutout" v-on:change="handleCutoutUpload" name="cutout"/><br/>
+                            <img class="preview" :src="product.cutout" v-if="product && product.cutout">
+                        </div>
+                        <div class="group" v-if="product && product.cutout">
+                            <label for="del_banner"><img src="../assets/images/delete.png"/></label>
+                            <input type="checkbox" v-model="form['del_cutout']" name="del_banner"/>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="page" :class="{ 'actual': page == 2 }">
                 <div class="group">
-                    <label for="price">Price</label>
-                    <input type="text" v-model="form['price']" name="price"/>
+                    <label for="base_price">Base Price</label>
+                    <input type="text" v-model="form['base_price']" name="base_price"/>
                 </div>
                 <div class="group">
                     <label for="inventory">Quantity in inventory</label>
@@ -68,10 +94,14 @@ export default {
                 'name': '',
                 'description': '',
                 'short_description': '',
-                'price': '',
+                'base_price': '',
                 'inventory': '',
                 'image': '',
                 'del_image': '',
+                'banner': '',
+                'del_banner': '',
+                'cutout': '',
+                'del_cutout': '',
             },
             'page': 1,
             'saved': false,
@@ -92,6 +122,12 @@ export default {
         handleImageUpload() {
             this.form['image'] = this.$refs.image.files[0];
         },
+        handleBannerUpload() {
+            this.form['banner'] = this.$refs.banner.files[0];
+        },
+        handleCutoutUpload() {
+            this.form['cutout'] = this.$refs.cutout.files[0];
+        },
         fetchProduct() {
             var that = this;
             this.$http.get(constants.apiUrl + 'product/' + this.$route.params.id).
@@ -99,6 +135,12 @@ export default {
                 that.product = response.data.product;
                 if (response.data.product.image) {
                     that.product.image = constants.apiUrl + response.data.product.image;
+                }
+                if (response.data.product.banner) {
+                    that.product.banner = constants.apiUrl + response.data.product.banner;
+                }
+                if (response.data.product.cutout) {
+                    that.product.cutout = constants.apiUrl + response.data.product.cutout;
                 }
                 that.form['name'] = response.data.product.name;
                 that.form['description'] = response.data.product.description;
