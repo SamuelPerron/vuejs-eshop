@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@300&display=swap');
+@import "@/assets/css/variables.scss";
+
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Spartan', Sans-Serif;
+    background-color: $white;
+    overflow-x: hidden;
+}
+
+::selection {
+    background: $color1;
+    color: $white;
+}

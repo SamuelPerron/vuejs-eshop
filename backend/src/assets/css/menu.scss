@@ -1,0 +1,42 @@
+@import "@/assets/css/variables.scss";
+
+.menu {
+    padding: 3vh 1vw;
+    width: 10vw;
+    text-align: center;
+    position: fixed;
+
+    .link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    h1 {
+        color: $color1;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        // .link {
+        li {
+            height: 4vh;
+            width: 100%;
+            padding-top: 2vh;
+            cursor: pointer;
+            display: block;
+
+            &:first-child {
+                margin-top: 5vh;
+            }
+
+            &:hover {
+                background-image: linear-gradient(to bottom right, $color1, $color2);
+                color: $white;
+                font-weight: bold;
+                border-radius: 5px;
+            }
+        }
+    }
+}

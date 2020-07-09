@@ -1,0 +1,99 @@
+@import "@/assets/css/variables.scss";
+
+
+.table {
+    width: 70vw;
+    height: 80vh;
+    border-collapse: collapse;
+    border-radius: 10px;
+    border-spacing: 0;
+    box-shadow: $box-shadow;
+
+    .tline {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+
+        .cell {
+            padding: 1.5vh 2vw;
+            text-align: left;
+
+            &:first-child {
+                width: 5vw;
+
+                .select-box {
+                    width: 20px;
+                    height: 20px;
+                    background-color: $lightergrey;
+                    display: block;
+                    margin: 0 auto;
+                    border-radius: 5px;
+                    border: 1.5px solid $white;
+                    cursor: pointer;
+                }
+
+                .selected {
+                    border: 1.5px solid $color1;
+
+                    &::after {
+                        content: "✓";
+                        color: $color1;
+                        font-size: 2.5rem;
+                        position: relative;
+                        top: -20px;
+                    }
+                }
+            }
+
+            &:last-child {
+                width: 5vw;
+
+                .edit-btn {
+                    text-decoration: none;
+                    color: $color1;
+                    font-weight: bold;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    .thead {
+        background-image: linear-gradient(to bottom right, $color1, $color2);
+        border-radius: 10px 10px 0 0;
+        font-weight: bold;
+    }
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    padding: 2vh 2vw;
+
+    button {
+        border: 1px solid $color1;
+        background-color: $white;
+        padding-top: .7rem;
+        padding-bottom: .7rem;
+        font-size: 1.1rem;
+        color: $color1;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-right: 1vw;
+
+        &:hover {
+            background: $color1;
+            color: $white;
+        }
+
+        &:disabled {
+            border: 1px solid $color1;
+            background-color: $white;
+            color: $color1;
+            cursor: not-allowed;
+        }
+    }
+}
