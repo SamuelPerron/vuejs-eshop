@@ -7,6 +7,7 @@
 <script>
 import '../assets/css/products.scss'
 import Table from './Table.vue'
+import constants from '../constants.js'
 
 export default {
     name: 'Products',
@@ -16,10 +17,22 @@ export default {
     data() {
         return {
             'productsHeaders': ['Name', 'Category', 'Sub-category'],
-            'products': [
-                [1, 'Green classic tee', 'Men', 'Tees'],
-                [2, 'White classic tee', 'Men', 'Tees'],
-            ],
+            'products': [],
+        }
+    },
+    created() {
+        this.fetchProducts();
+    },
+    methods: {
+        fetchProducts() {
+            var that = this;
+            this.$http.get(constants.apiUrl + 'products').
+            then(function(response) {
+                var data = response.data.products;
+                for (var i = 0; i < data.length; i++) {
+                    that.products.push([data[i]['id'], data[i]['name'], 'Men', 'Tees']);
+                }
+            });
         }
     }
 }
