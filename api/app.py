@@ -17,6 +17,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 cors = CORS(app, resources={r'/*': {'origins': '*'}})
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///api.db'
+app.config["IMAGE_UPLOADS"] = 'uploads/images'
 
 db = SQLAlchemy(app, metadata=MetaData(naming_convention=naming_convention))
 migrate = Migrate(app, db)

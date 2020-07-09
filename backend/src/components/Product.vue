@@ -24,7 +24,19 @@
                         <textarea v-model="form['short_description']" name="shortDescription"/>
                     </div>
                 </div>
+                <div class="side-by-side">
+                    <div class="group">
+                        <label for="image">Image</label>
+                        <input type="file" ref="image" v-on:change="handleImageUpload" name="image"/>
+                        <img class="preview" :src="product.image" v-if="product && product.image">
+                    </div>
+                    <div class="group" v-if="product && product.image">
+                        <label for="del_image"><img src="../assets/images/delete.png"/></label>
+                        <input type="checkbox" v-model="form['del_image']" name="del_image"/>
+                    </div>
+                </div>
             </div>
+
             <div class="page" :class="{ 'actual': page == 2 }">
                 <div class="group">
                     <label for="price">Price</label>
@@ -58,6 +70,8 @@ export default {
                 'short_description': '',
                 'price': '',
                 'inventory': '',
+                'image': '',
+                'del_image': '',
             },
             'page': 1,
             'saved': false,
@@ -75,11 +89,17 @@ export default {
         goToPage(id) {
             this.page = id;
         },
+        handleImageUpload() {
+            this.form['image'] = this.$refs.image.files[0];
+        },
         fetchProduct() {
             var that = this;
             this.$http.get(constants.apiUrl + 'product/' + this.$route.params.id).
             then(function(response) {
                 that.product = response.data.product;
+                if (response.data.product.image) {
+                    that.product.image = constants.apiUrl + response.data.product.image;
+                }
                 that.form['name'] = response.data.product.name;
                 that.form['description'] = response.data.product.description;
                 that.form['short_description'] = response.data.product.short_description;
@@ -102,7 +122,11 @@ export default {
             } else {
                 url = constants.apiUrl + 'product/new/';
             }
-            this.$http.post(url, formData)
+            this.$http.post(url, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
             .then(function(response) {
                 that.saved = true;
                 if (!that.edit) {
@@ -112,6 +136,7 @@ export default {
                     that.product = response.data['product'];
                     that.$router.push('/product/' + that.product.id);
                 }
+                that.fetchProduct();
             })
             .catch(function() {
                 that.error = true;

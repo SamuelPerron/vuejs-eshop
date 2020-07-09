@@ -81,6 +81,16 @@
                     height: 12vh;
                     padding: 1vh 1vw;
                 }
+
+                .preview {
+                    width: 5vw;
+                }
+
+                label {
+                    img {
+                        height: 25px;
+                    }
+                }
             }
 
             .side-by-side {
