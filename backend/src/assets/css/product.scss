@@ -8,6 +8,10 @@
     h1 {
         display: inline-block;
         margin-right: 2vw;
+
+        span {
+            color: $color1;
+        }
     }
 
     .confirmation,

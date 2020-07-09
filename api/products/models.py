@@ -16,14 +16,8 @@ class Product(db.Model):
         self.name = name
         self.description = description
         self.short_description = short_description
-        try:
-            self.price = float(price)
-        except ValueError:
-            self.price = None
-        try:
-            self.inventory = int(inventory)
-        except ValueError:
-            self.inventory = None
+        self.price = price
+        self.inventory = inventory
         self.save()
 
     def __repr__(self):
@@ -40,6 +34,14 @@ class Product(db.Model):
         }
 
     def save(self):
+        try:
+            self.price = float(self.price)
+        except ValueError:
+            self.price = None
+        try:
+            self.inventory = int(self.inventory)
+        except ValueError:
+            self.inventory = None
         self.update_date = str(datetime.datetime.now())
         db.session.add(self)
         db.session.commit()

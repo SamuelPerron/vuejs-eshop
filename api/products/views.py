@@ -13,6 +13,28 @@ def products():
     }
 
 
+@app.route('/product/<int:id>', methods=['GET', 'POST',])
+def product(id):
+    product = Product.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        data = {}
+        data.update(request.form)
+        if data['name'] == '':
+            abort(400, 'Fill required fields.')
+
+        product.name = data['name']
+        product.description = data['description']
+        product.short_description = data['short_description']
+        product.inventory = data['inventory']
+        product.price = data['price']
+        product.save()
+        return {'result': 'OK'}
+    else:
+        return {
+            'product': product.to_json()
+        }
+
+
 @app.route('/product/new/', methods=['POST',])
 def new_product():
     data = {}
@@ -26,4 +48,7 @@ def new_product():
         price=data['price'],
         inventory=data['inventory'],
     )
-    return {'result': 'OK'}
+    return {
+        'result': 'OK',
+        'product': Product.query.all()[-1].to_json()
+    }

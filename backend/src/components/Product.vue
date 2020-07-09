@@ -1,7 +1,7 @@
 <template>
     <div class="form">
         <router-link :to="{ name: 'products' }">Back to list</router-link>
-        <br/><h1>New Product</h1>
+        <br/><h1 v-if="!edit">New Product</h1> <h1 v-else="">Edit : <span>{{ product.name }}</span></h1>
         <span class="confirmation" :class="{ 'show-confirmation': saved }">Saved !</span>
         <span class="error" :class="{ 'show-confirmation': error }">Error !</span>
         <div class="container">
@@ -62,11 +62,30 @@ export default {
             'page': 1,
             'saved': false,
             'error': false,
+            'edit': false,
+        }
+    },
+    created() {
+        if (this.$route.params.id != 'new') {
+            this.edit = true;
+            this.fetchProduct();
         }
     },
     methods: {
         goToPage(id) {
             this.page = id;
+        },
+        fetchProduct() {
+            var that = this;
+            this.$http.get(constants.apiUrl + 'product/' + this.$route.params.id).
+            then(function(response) {
+                that.product = response.data.product;
+                that.form['name'] = response.data.product.name;
+                that.form['description'] = response.data.product.description;
+                that.form['short_description'] = response.data.product.short_description;
+                that.form['price'] = response.data.product.price;
+                that.form['inventory'] = response.data.product.inventory;
+            });
         },
         save() {
             this.saved = false;
@@ -77,10 +96,22 @@ export default {
                 formData.set(key, this.form[key]);
             }
             var that = this;
-            var url = constants.apiUrl + '/product/new/';
+            var url = '';
+            if (this.edit) {
+                url = constants.apiUrl + 'product/' + this.product.id;
+            } else {
+                url = constants.apiUrl + 'product/new/';
+            }
             this.$http.post(url, formData)
-            .then(function() {
+            .then(function(response) {
                 that.saved = true;
+                if (!that.edit) {
+                    that.product = {};
+                    that.product.name = that.form['name'];
+                    that.edit = true;
+                    that.product = response.data['product'];
+                    that.$router.push('/product/' + that.product.id);
+                }
             })
             .catch(function() {
                 that.error = true;
